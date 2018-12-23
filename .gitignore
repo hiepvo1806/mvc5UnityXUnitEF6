@@ -1,0 +1,12 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/PresentationLayer/.vs
+/PresentationLayer/packages
+/PresentationLayer/PresentationLayer/bin
+/PresentationLayer/PresentationLayer/obj/Debug
+/mvc5UnityXUnitEF6/.vs
+/mvc5UnityXUnitEF6/packages
+/mvc5UnityXUnitEF6/PresentationLayer/bin
+/mvc5UnityXUnitEF6/PresentationLayer/obj/Debug
