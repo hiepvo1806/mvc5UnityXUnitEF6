@@ -27,7 +27,7 @@ namespace PresentationLayer.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Book book = db.Books.Find(id);
+            BookVM book = db.Books.Find(id);
             if (book == null)
             {
                 return HttpNotFound();
@@ -46,7 +46,7 @@ namespace PresentationLayer.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Description")] Book book)
+        public ActionResult Create([Bind(Include = "Id,Description")] BookVM book)
         {
             if (ModelState.IsValid)
             {
@@ -65,7 +65,7 @@ namespace PresentationLayer.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Book book = db.Books.Find(id);
+            BookVM book = db.Books.Find(id);
             if (book == null)
             {
                 return HttpNotFound();
@@ -78,7 +78,7 @@ namespace PresentationLayer.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Description")] Book book)
+        public ActionResult Edit([Bind(Include = "Id,Description")] BookVM book)
         {
             if (ModelState.IsValid)
             {
@@ -96,7 +96,7 @@ namespace PresentationLayer.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Book book = db.Books.Find(id);
+            BookVM book = db.Books.Find(id);
             if (book == null)
             {
                 return HttpNotFound();
@@ -109,7 +109,7 @@ namespace PresentationLayer.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Book book = db.Books.Find(id);
+            BookVM book = db.Books.Find(id);
             db.Books.Remove(book);
             db.SaveChanges();
             return RedirectToAction("Index");

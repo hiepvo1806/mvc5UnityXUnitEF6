@@ -27,7 +27,7 @@ namespace PresentationLayer.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            BookShop bookShop = db.BookShops.Find(id);
+            BookShopVM bookShop = db.BookShops.Find(id);
             if (bookShop == null)
             {
                 return HttpNotFound();
@@ -46,7 +46,7 @@ namespace PresentationLayer.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Address")] BookShop bookShop)
+        public ActionResult Create([Bind(Include = "Id,Address")] BookShopVM bookShop)
         {
             if (ModelState.IsValid)
             {
@@ -65,7 +65,7 @@ namespace PresentationLayer.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            BookShop bookShop = db.BookShops.Find(id);
+            BookShopVM bookShop = db.BookShops.Find(id);
             if (bookShop == null)
             {
                 return HttpNotFound();
@@ -78,7 +78,7 @@ namespace PresentationLayer.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Address")] BookShop bookShop)
+        public ActionResult Edit([Bind(Include = "Id,Address")] BookShopVM bookShop)
         {
             if (ModelState.IsValid)
             {
@@ -96,7 +96,7 @@ namespace PresentationLayer.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            BookShop bookShop = db.BookShops.Find(id);
+            BookShopVM bookShop = db.BookShops.Find(id);
             if (bookShop == null)
             {
                 return HttpNotFound();
@@ -109,7 +109,7 @@ namespace PresentationLayer.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            BookShop bookShop = db.BookShops.Find(id);
+            BookShopVM bookShop = db.BookShops.Find(id);
             db.BookShops.Remove(bookShop);
             db.SaveChanges();
             return RedirectToAction("Index");

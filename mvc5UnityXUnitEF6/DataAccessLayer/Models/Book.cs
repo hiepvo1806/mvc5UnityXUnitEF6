@@ -1,4 +1,4 @@
-﻿namespace PresentationLayer.Models
+﻿namespace DataAccessLayer.Models
 {
     public class Book
     {

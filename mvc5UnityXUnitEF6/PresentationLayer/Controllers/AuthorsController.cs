@@ -27,7 +27,7 @@ namespace PresentationLayer.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Author author = db.Authors.Find(id);
+            AuthorVM author = db.Authors.Find(id);
             if (author == null)
             {
                 return HttpNotFound();
@@ -46,7 +46,7 @@ namespace PresentationLayer.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,FirstName,LastName,Age")] Author author)
+        public ActionResult Create([Bind(Include = "Id,FirstName,LastName,Age")] AuthorVM author)
         {
             if (ModelState.IsValid)
             {
@@ -65,7 +65,7 @@ namespace PresentationLayer.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Author author = db.Authors.Find(id);
+            AuthorVM author = db.Authors.Find(id);
             if (author == null)
             {
                 return HttpNotFound();
@@ -78,7 +78,7 @@ namespace PresentationLayer.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,FirstName,LastName,Age")] Author author)
+        public ActionResult Edit([Bind(Include = "Id,FirstName,LastName,Age")] AuthorVM author)
         {
             if (ModelState.IsValid)
             {
@@ -96,7 +96,7 @@ namespace PresentationLayer.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Author author = db.Authors.Find(id);
+            AuthorVM author = db.Authors.Find(id);
             if (author == null)
             {
                 return HttpNotFound();
@@ -109,7 +109,7 @@ namespace PresentationLayer.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Author author = db.Authors.Find(id);
+            AuthorVM author = db.Authors.Find(id);
             db.Authors.Remove(author);
             db.SaveChanges();
             return RedirectToAction("Index");

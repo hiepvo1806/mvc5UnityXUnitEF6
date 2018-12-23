@@ -1,4 +1,5 @@
-﻿using System.Data.Entity;
+﻿using DataAccessLayer.Models;
+using System.Data.Entity;
 
 public class BookstoreContext : DbContext
 {
@@ -13,9 +14,9 @@ public class BookstoreContext : DbContext
     {
     }
 
-    public System.Data.Entity.DbSet<PresentationLayer.Models.Author> Authors { get; set; }
+    public DbSet<Author> Authors { get; set; }
 
-    public System.Data.Entity.DbSet<PresentationLayer.Models.Book> Books { get; set; }
+    public DbSet<Book> Books { get; set; }
 
-    public System.Data.Entity.DbSet<PresentationLayer.Models.BookShop> BookShops { get; set; }
+    public DbSet<BookShop> BookShops { get; set; }
 }

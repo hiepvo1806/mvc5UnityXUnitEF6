@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 
-namespace PresentationLayer.Models
+namespace ServiceLayer.Models
 {
-    public class BookShop
+    public class BookShopVM
     {
         public int Id { get; set; }
         public string Address { get; set; }
-        public List<Book> Books { get; set; }
+        public List<BookVM> Books { get; set; }
     }
 }
