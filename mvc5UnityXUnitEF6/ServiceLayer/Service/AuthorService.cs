@@ -1,34 +1,19 @@
-﻿using DataAccessLayer.Repo;
+﻿using DataAccessLayer.Models;
+using DataAccessLayer.Repo;
 using ServiceLayer.Models;
 
 namespace ServiceLayer.Service
 {
-    public class AuthorService : IBaseService<AuthorVM>
+    public class AuthorService : BaseService<AuthorVM,Author>, IAuthorService
     {
-        public AuthorRepo authorRepo { get; set; }
         public AuthorService()
         {
-            authorRepo = new AuthorRepo();
+            repo = new AuthorRepo();
         }
+    }
 
-        public AuthorVM Details(int? id)
-        {
-            throw new System.NotImplementedException();
-        }
+    public interface IAuthorService : IBaseService<AuthorVM>
+    {
 
-        public void Create(AuthorVM entity)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public AuthorVM Edit(AuthorVM entity)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public void Delete(int? id)
-        {
-            throw new System.NotImplementedException();
-        }
     }
 }

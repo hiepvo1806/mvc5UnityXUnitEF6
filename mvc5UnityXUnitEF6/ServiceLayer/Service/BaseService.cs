@@ -1,12 +1,16 @@
-﻿using AutoMapper;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using AutoMapper;
 using DataAccessLayer.Repo;
+using System.Linq.Expressions;
 
 namespace ServiceLayer.Service
 {
     public class BaseService<T, M> : IBaseService<T> where M : class
     {
-        public IBaseRepo<M> repo { get; set; }
-        public IMapper mapper { get; set; }
+        protected IBaseRepo<M> repo { get; set; }
+        protected IMapper mapper { get; set; }
 
         public void Create(T vm)
         {
@@ -16,17 +20,25 @@ namespace ServiceLayer.Service
 
         public void Delete(int? id)
         {
-            throw new System.NotImplementedException();
+            repo.Delete(id);
         }
 
         public T Details(int? id)
         {
-            throw new System.NotImplementedException();
+            return mapper.Map<T>(repo.Details(id));
         }
 
-        public T Edit(T entity)
+        public virtual T Edit(T input)
         {
-            throw new System.NotImplementedException();
+            var entity = mapper.Map<M>(input);
+            repo.Edit(entity);
+            return input;
+        }
+
+        public IEnumerable<T> GetList()
+        {
+            var result =  repo.GetList(null).Select(s=> mapper.Map<T>(s));
+            return result;
         }
     }
 }

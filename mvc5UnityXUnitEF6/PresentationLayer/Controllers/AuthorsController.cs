@@ -1,23 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
+﻿using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
-using PresentationLayer.Models;
+using ServiceLayer.Service;
+using ServiceLayer.Models;
 
 namespace PresentationLayer.Controllers
 {
     public class AuthorsController : Controller
     {
-        private BookstoreContext db = new BookstoreContext();
+        private IAuthorService sv = new AuthorService();
 
         // GET: Authors
         public ActionResult Index()
         {
-            return View(db.Authors.ToList());
+            return View(sv.GetList());
         }
 
         // GET: Authors/Details/5
@@ -27,7 +24,7 @@ namespace PresentationLayer.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            AuthorVM author = db.Authors.Find(id);
+            AuthorVM author = sv.Details(id);
             if (author == null)
             {
                 return HttpNotFound();
@@ -50,8 +47,8 @@ namespace PresentationLayer.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Authors.Add(author);
-                db.SaveChanges();
+                sv.Create(author);
+                sv.SaveChanges();
                 return RedirectToAction("Index");
             }
 

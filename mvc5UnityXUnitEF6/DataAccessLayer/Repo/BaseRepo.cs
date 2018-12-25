@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Data.Entity;
+using System.Linq;
+using System.Linq.Expressions;
 
 namespace DataAccessLayer.Repo
 {
-    public class BaseRepo<T> : IBaseRepo<T> where T : class
+    public abstract class BaseRepo<T> : IBaseRepo<T> where T : class
     {
-        private BookstoreContext db = new BookstoreContext();
+        protected BookstoreContext db = new BookstoreContext();
         public void Create(T entity)
         {
             db.Set<T>().Add(entity);
@@ -39,12 +41,21 @@ namespace DataAccessLayer.Repo
             return entity;
         }
 
-        public T Edit(T entity)
+        public abstract T Edit(T entity);
+        //{
+        //    db.Entry(entity).State = EntityState.Modified;
+        //    return entity;
+        //}
+
+        public IQueryable<T> GetList(Expression<Func<T, bool>> predicate)
         {
-            db.Entry(entity).State = EntityState.Modified;
-            return entity;
+            if (predicate == null) return db.Set<T>();
+            return db.Set<T>().Where(predicate);
+        }
+
+        public int SaveChanges()
+        {
+            return db.SaveChanges();
         }
     }
-
-
 }
