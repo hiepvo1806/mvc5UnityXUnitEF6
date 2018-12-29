@@ -1,22 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using DataAccessLayer;
 
 namespace ServiceLayer.Service
 {
     public class UnitOfWorkService : IUnitOfWorkService
     {
-        int SaveChanges()
+        public IUnitOfWork uow = new UnitOfWork();
+        public int Commit()
         {
-            return 
+            return uow.Commit();
         }
     }
 
     public interface IUnitOfWorkService
     {
-        int SaveChanges();
+        int Commit();
     }
 }

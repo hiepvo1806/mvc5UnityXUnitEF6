@@ -1,16 +1,14 @@
-﻿using System.Data.Entity;
-using System.Linq;
+﻿using ServiceLayer.Models;
+using ServiceLayer.Service;
 using System.Net;
 using System.Web.Mvc;
-using ServiceLayer.Service;
-using ServiceLayer.Models;
 
 namespace PresentationLayer.Controllers
 {
     public class AuthorsController : Controller
     {
         private IAuthorService sv = new AuthorService();
-
+        private IUnitOfWorkService uow = new UnitOfWorkService();
         // GET: Authors
         public ActionResult Index()
         {
@@ -48,7 +46,7 @@ namespace PresentationLayer.Controllers
             if (ModelState.IsValid)
             {
                 sv.Create(author);
-                sv.SaveChanges();
+                uow.Commit();
                 return RedirectToAction("Index");
             }
 
@@ -62,7 +60,7 @@ namespace PresentationLayer.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            AuthorVM author = db.Authors.Find(id);
+            AuthorVM author = sv.Details(id);
             if (author == null)
             {
                 return HttpNotFound();
@@ -79,8 +77,8 @@ namespace PresentationLayer.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(author).State = EntityState.Modified;
-                db.SaveChanges();
+                sv.Edit(author);
+                uow.Commit();
                 return RedirectToAction("Index");
             }
             return View(author);
@@ -93,7 +91,7 @@ namespace PresentationLayer.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            AuthorVM author = db.Authors.Find(id);
+            AuthorVM author = sv.Details(id);
             if (author == null)
             {
                 return HttpNotFound();
@@ -106,18 +104,13 @@ namespace PresentationLayer.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            AuthorVM author = db.Authors.Find(id);
-            db.Authors.Remove(author);
-            db.SaveChanges();
+            sv.Delete(id);
+            uow.Commit();
             return RedirectToAction("Index");
         }
 
         protected override void Dispose(bool disposing)
         {
-            if (disposing)
-            {
-                db.Dispose();
-            }
             base.Dispose(disposing);
         }
     }
