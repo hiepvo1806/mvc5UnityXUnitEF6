@@ -4,40 +4,48 @@ using System.Linq;
 using AutoMapper;
 using DataAccessLayer.Repo;
 using System.Linq.Expressions;
+using Unity.Attributes;
 
 namespace ServiceLayer.Service
 {
     public class BaseService<T, M> : IBaseService<T> where M : class
     {
-        protected IBaseRepo<M> repo { get; set; }
-        protected IMapper mapper { get; set; }
+        protected IBaseRepo<M> _repo { get; set; }
+        //[Dependency]
+        protected IMapper _mapper { get; set; }
+
+        public BaseService(IMapper mapper, IBaseRepo<M> repo)
+        {
+            _mapper = mapper;
+            _repo = repo;
+        }
 
         public void Create(T vm)
         {
-            var entity = mapper.Map<M>(vm);
-            repo.Create(entity);
+            var entity = _mapper.Map<M>(vm);
+            _repo.Create(entity);
         }
 
         public void Delete(int? id)
         {
-            repo.Delete(id);
+            _repo.Delete(id);
         }
 
         public T Details(int? id)
         {
-            return mapper.Map<T>(repo.Details(id));
+            return _mapper.Map<T>(_repo.Details(id));
         }
 
         public virtual T Edit(T input)
         {
-            var entity = mapper.Map<M>(input);
-            repo.Edit(entity);
+            var entity = _mapper.Map<M>(input);
+            _repo.Edit(entity);
             return input;
         }
 
         public IEnumerable<T> GetList()
         {
-            var result =  repo.GetList(null).ToList().Select(s=> mapper.Map<T>(s));
+            var result =  _repo.GetList(null).ToList().Select(s=> _mapper.Map<T>(s));
             return result;
         }
     }

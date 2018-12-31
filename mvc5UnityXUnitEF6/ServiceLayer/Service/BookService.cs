@@ -6,14 +6,16 @@ using System.Threading.Tasks;
 using ServiceLayer.Models;
 using DataAccessLayer.Models;
 using DataAccessLayer.Repo;
+using AutoMapper;
 
 namespace ServiceLayer.Service
 {
     public class BookService : BaseService<BookVM, Book>, IBookService
     {
-        public BookService()
+
+        public BookService(IMapper mapper) : base(mapper,(new BookRepo()))
         {
-            repo = new BookRepo();
+            
         }
     }
 

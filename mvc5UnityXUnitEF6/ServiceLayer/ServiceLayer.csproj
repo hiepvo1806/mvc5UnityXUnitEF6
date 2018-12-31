@@ -5,7 +5,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Service\BookService.cs" />
+    <Compile Remove="Service\BookShopService.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AutoMapper" Version="8.0.0" />
+    <PackageReference Include="Unity" Version="5.8.13" />
+    <PackageReference Include="Unity.Mvc" Version="5.0.15" />
   </ItemGroup>
 
   <ItemGroup>

@@ -13,7 +13,7 @@ namespace ServiceLayer.Service
     {
         public BookShopService()
         {
-            repo = new BookShopRepo();
+            _repo = new BookShopRepo();
         }
     }
 

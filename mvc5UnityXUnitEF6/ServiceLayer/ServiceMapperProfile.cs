@@ -9,14 +9,19 @@ using System.Threading.Tasks;
 
 namespace ServiceLayer
 {
-    public static class ServiceMapperProfile
+    public class ServiceMapperProfile : Profile
     {
-        public static void Configure()
+        //public static void Configure()
+        //{
+        //    Mapper.Initialize(cfg => {
+        //        cfg.CreateMap<AuthorVM, Author>();
+        //        cfg.CreateMap<Author, AuthorVM>();
+        //    });
+        //}
+        public ServiceMapperProfile()
         {
-            Mapper.Initialize(cfg => {
-                cfg.CreateMap<AuthorVM, Author>();
-                cfg.CreateMap<Author, AuthorVM>();
-            });
+            CreateMap<AuthorVM, Author>();
+            CreateMap<Author, AuthorVM>();
         }
     }
 }

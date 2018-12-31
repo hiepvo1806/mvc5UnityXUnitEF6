@@ -1,4 +1,5 @@
-﻿using ServiceLayer.Models;
+﻿using AutoMapper;
+using ServiceLayer.Models;
 using ServiceLayer.Service;
 using System.Net;
 using System.Web.Mvc;
@@ -7,12 +8,20 @@ namespace PresentationLayer.Controllers
 {
     public class AuthorsController : Controller
     {
-        private IAuthorService sv = new AuthorService();
-        private IUnitOfWorkService uow = new UnitOfWorkService();
+        private IAuthorService _sv { get; set; }
+        private IUnitOfWorkService _uow { get; set; }
+        private IMapper _mapper { get; set; }
         // GET: Authors
+        public AuthorsController(IAuthorService sv, IUnitOfWorkService uow,IMapper mapper)
+        {
+            _mapper = mapper;
+            _sv = sv;
+            _uow = uow;
+
+        }
         public ActionResult Index()
         {
-            return View(sv.GetList());
+            return View(_sv.GetList());
         }
 
         // GET: Authors/Details/5
@@ -22,7 +31,7 @@ namespace PresentationLayer.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            AuthorVM author = sv.Details(id);
+            AuthorVM author = _sv.Details(id);
             if (author == null)
             {
                 return HttpNotFound();
@@ -45,8 +54,8 @@ namespace PresentationLayer.Controllers
         {
             if (ModelState.IsValid)
             {
-                sv.Create(author);
-                uow.Commit();
+                _sv.Create(author);
+                _uow.Commit();
                 return RedirectToAction("Index");
             }
 
@@ -60,7 +69,7 @@ namespace PresentationLayer.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            AuthorVM author = sv.Details(id);
+            AuthorVM author = _sv.Details(id);
             if (author == null)
             {
                 return HttpNotFound();
@@ -77,8 +86,8 @@ namespace PresentationLayer.Controllers
         {
             if (ModelState.IsValid)
             {
-                sv.Edit(author);
-                uow.Commit();
+                _sv.Edit(author);
+                _uow.Commit();
                 return RedirectToAction("Index");
             }
             return View(author);
@@ -91,7 +100,7 @@ namespace PresentationLayer.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            AuthorVM author = sv.Details(id);
+            AuthorVM author = _sv.Details(id);
             if (author == null)
             {
                 return HttpNotFound();
@@ -104,8 +113,8 @@ namespace PresentationLayer.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            sv.Delete(id);
-            uow.Commit();
+            _sv.Delete(id);
+            _uow.Commit();
             return RedirectToAction("Index");
         }
 

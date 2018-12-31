@@ -4,15 +4,15 @@ namespace DataAccessLayer
 {
     public class UnitOfWork : IUnitOfWork
     {
-        protected DbContext db = new BookstoreContext();
-        public UnitOfWork()
+        protected DbContext _db { get; set; }
+        public UnitOfWork(DbContext db)
         {
-
+            _db = db;
         }
 
         public int Commit()
         {
-            return db.SaveChanges();
+            return _db.SaveChanges();
         }
     }
 }

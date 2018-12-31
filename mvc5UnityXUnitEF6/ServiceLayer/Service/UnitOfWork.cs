@@ -4,10 +4,14 @@ namespace ServiceLayer.Service
 {
     public class UnitOfWorkService : IUnitOfWorkService
     {
-        public IUnitOfWork uow = new UnitOfWork();
+        public IUnitOfWork _uow { get; set; }
+        public UnitOfWorkService(IUnitOfWork uow)
+        {
+            _uow = uow;
+        }
         public int Commit()
         {
-            return uow.Commit();
+            return _uow.Commit();
         }
     }
 

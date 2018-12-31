@@ -10,7 +10,7 @@ namespace DataAccessLayer.Repo
         void Create(T entity);
         T Edit(T entity);
         void Delete(int? id);
-        int SaveChanges();
+        //int SaveChanges();
         IQueryable<T> GetList(Expression<Func<T, bool>> predicate);
     }
 }
