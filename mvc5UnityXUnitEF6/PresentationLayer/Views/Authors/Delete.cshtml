@@ -1,7 +1,7 @@
 ﻿@model ServiceLayer.Models.AuthorVM
 
 @{
-    Layout = null;
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <!DOCTYPE html>
@@ -12,6 +12,7 @@
     <title>Delete</title>
 </head>
 <body>
+    @*@Scripts.Render("~/bundles/bootstrap")*@
     <h3>Are you sure you want to delete this?</h3>
     <div>
         <h4>Author</h4>

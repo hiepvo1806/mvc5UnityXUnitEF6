@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<ServiceLayer.Models.AuthorVM>
 
 @{
-    Layout = null;
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <!DOCTYPE html>
@@ -12,6 +12,7 @@
     <title>Index</title>
 </head>
 <body>
+    @*@Scripts.Render("~/bundles/bootstrap")*@
     <p>
         @Html.ActionLink("Create New", "Create")
     </p>
