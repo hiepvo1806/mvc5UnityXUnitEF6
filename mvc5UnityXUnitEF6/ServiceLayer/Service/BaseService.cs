@@ -37,7 +37,7 @@ namespace ServiceLayer.Service
 
         public IEnumerable<T> GetList()
         {
-            var result =  repo.GetList(null).Select(s=> mapper.Map<T>(s));
+            var result =  repo.GetList(null).ToList().Select(s=> mapper.Map<T>(s));
             return result;
         }
     }
