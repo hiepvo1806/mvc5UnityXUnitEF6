@@ -20,7 +20,12 @@ namespace UnitTestProject1
 {
     public class SampleTestEFMock
     {
-        protected IMapper _mapper { get; set; }
+        private readonly IMapper _mapper;
+        private IAuthorRepo AuthorRepo { get; set; }
+        private IUnitOfWork Uow { get; set; }
+
+        private IUnitOfWorkService _uowService { get; set; }
+        private IAuthorService _serviceUnderTest { get; set; }
         public SampleTestEFMock()
         {
             var config = new MapperConfiguration(cfg =>
@@ -41,7 +46,6 @@ namespace UnitTestProject1
                 Id = 123,
                 LastName = "Just Mocked Last Name"
             };
-
             var dataSource = new List<Author>()
             {
                 author
@@ -49,26 +53,32 @@ namespace UnitTestProject1
            
             var mockSet = new MockDbSet<Author>(dataSource);
             var mockContext = new Mock<BookstoreContext>();
-
             mockContext.Setup(c => c.Set<Author>()).Returns(mockSet.Object);
-            IAuthorRepo authorRepo = new AuthorRepo(mockContext.Object);
-            IUnitOfWork uow = new UnitOfWork(mockContext.Object);
-            IUnitOfWorkService uowService = new UnitOfWorkService(uow);
-            IAuthorService service = new AuthorService(_mapper,authorRepo);
+            Setup(mockContext);
             //ACT
-            service.Create(new AuthorVM()
+            _serviceUnderTest.Create(new AuthorVM()
             {
-                FirstName = "hiep",
+                FirstName = "Hiep",
                 Books = null,
                 Id = 12,
                 LastName = "Vo",
                 Age = 28
             });
-            uowService.Commit();
+            _uowService.Commit();
             
             // ASSERT
             mockSet.Verify(u => u.Add(It.IsAny<Author>()), Times.Once());
-            Assert.Contains(dataSource, x =>x.FirstName == "hiep"); //<-- shows mock actually added item
+            Assert.Contains(dataSource, x =>x.FirstName == "Hiep"); //<-- shows mock actually added item
+        }
+
+
+        private void Setup(Mock<BookstoreContext> mockContext)
+        {
+            AuthorRepo = new AuthorRepo(mockContext.Object);
+            AuthorRepo = new AuthorRepo(mockContext.Object);
+            Uow = new UnitOfWork(mockContext.Object);
+            _uowService = new UnitOfWorkService(Uow);
+            _serviceUnderTest = new AuthorService(_mapper, AuthorRepo);
         }
     }
 }
