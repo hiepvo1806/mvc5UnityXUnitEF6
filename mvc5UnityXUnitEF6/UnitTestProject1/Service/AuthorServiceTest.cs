@@ -12,15 +12,15 @@ using DataAccessLayer.Repo;
 using DataAccessLayer.Models;
 using ServiceLayer;
 
-namespace UnitTestProject.Sample
+namespace UnitTestProject.Service
 {
-    public class UsingMoq
+    public class AuthorServiceTest
     {
         protected Mock<IAuthorRepo> _mockRepo { get; set; }
         protected IMapper _mapper { get; set; }
 
         protected IAuthorService service { get; set; }
-        public UsingMoq()
+        public AuthorServiceTest()
         {
             _mockRepo = new Mock<IAuthorRepo>();
             var config = new MapperConfiguration(cfg =>
