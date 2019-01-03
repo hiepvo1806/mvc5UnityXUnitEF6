@@ -10,6 +10,7 @@ using ServiceLayer.Models;
 using ServiceLayer.Service;
 using Xunit;
 using UnitTestProject.Helper;
+using UnitTestProject1.Model;
 
 namespace UnitTestProject
 {
@@ -31,7 +32,7 @@ namespace UnitTestProject
         }
 
         [Fact]
-        public void AddEFEntityThroughRepository()
+        public void AddEFEntityThroughRepositoryShouldReturnTrue()
         {
             var setupResult =  Setup(null);
             var mockSet = setupResult.MockSet;
@@ -107,7 +108,6 @@ namespace UnitTestProject
             Assert.Contains(dataSource, x => x.FirstName == "ServicEditShouldReturnTrue");       
         }
 
-
         private MockSetupResult<Author,int> Setup(List<Author> inputDataSource)
         {
             //1.Setup data
@@ -144,11 +144,5 @@ namespace UnitTestProject
             };
 
         }
-    }
-
-    public class MockSetupResult<T,TK> where T : BaseEntityWithKey<TK>
-    {
-        public MockDbSet<T,TK> MockSet { get; set; }
-        public List<T> DataSource { get; set; }
     }
 }
