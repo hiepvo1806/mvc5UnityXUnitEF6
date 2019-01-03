@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using AutoMapper;
 using DataAccessLayer;
 using DataAccessLayer.Models;
@@ -11,12 +8,10 @@ using Moq;
 using ServiceLayer;
 using ServiceLayer.Models;
 using ServiceLayer.Service;
-using UnitTestProject1.Helper;
-using UnitTestProject1.Model;
 using Xunit;
-using System.Linq;
+using UnitTestProject.Helper;
 
-namespace UnitTestProject1
+namespace UnitTestProject
 {
     public class SampleTestEFMock
     {
@@ -80,7 +75,40 @@ namespace UnitTestProject1
             Assert.Contains(dataSource, x => x.FirstName == "Jeff"); //<-- shows mock actually added item
         }
 
-        private MockSetupResult<Author> Setup(List<Author> inputDataSource)
+        [Fact]
+        public void ServiceDetailShouldReturnTrue()
+        {
+            //SETUP
+            var setupResult = Setup(null);
+            var mockSet = setupResult.MockSet;
+            var dataSource = setupResult.DataSource;
+            //ACT
+            var result = _serviceUnderTest.Details(123);
+
+            //ASSERT
+            Assert.NotNull(result);
+        }
+
+        [Fact]
+        public void ServicEditShouldReturnTrue()
+        {
+            //SETUP
+            var setupResult = Setup(null);
+            var mockSet = setupResult.MockSet;
+            var dataSource = setupResult.DataSource;
+            //ACT
+            var result = _serviceUnderTest.Edit(new AuthorVM()
+            {
+                Id = 123,
+                FirstName = "ServicEditShouldReturnTrue"
+            });
+
+            //ASSERT
+            Assert.Contains(dataSource, x => x.FirstName == "ServicEditShouldReturnTrue");       
+        }
+
+
+        private MockSetupResult<Author,int> Setup(List<Author> inputDataSource)
         {
             //1.Setup data
             var author = new Author()
@@ -99,7 +127,7 @@ namespace UnitTestProject1
             if (inputDataSource != null)
                 dataSource = dataSource.Concat(inputDataSource).ToList(); //<-- this will hold data
             //2.Setup Db, reference to MockDbSet in helper for more detail.
-            var mockSet = new MockDbSet<Author>(dataSource);
+            var mockSet = new MockDbSet<Author,int>(dataSource);
             var mockContext = new Mock<BookstoreContext>();
             mockContext.Setup(c => c.Set<Author>()).Returns(mockSet.Object);
 
@@ -109,7 +137,7 @@ namespace UnitTestProject1
             Uow = new UnitOfWork(mockContext.Object);
             _uowService = new UnitOfWorkService(Uow);
             _serviceUnderTest = new AuthorService(_mapper, AuthorRepo);
-            return new MockSetupResult<Author>
+            return new MockSetupResult<Author,int>
             {
                 DataSource = dataSource,
                 MockSet = mockSet
@@ -118,9 +146,9 @@ namespace UnitTestProject1
         }
     }
 
-    public class MockSetupResult<T> where T:class
+    public class MockSetupResult<T,TK> where T : BaseEntityWithKey<TK>
     {
-        public MockDbSet<T> MockSet { get; set; }
+        public MockDbSet<T,TK> MockSet { get; set; }
         public List<T> DataSource { get; set; }
     }
 }

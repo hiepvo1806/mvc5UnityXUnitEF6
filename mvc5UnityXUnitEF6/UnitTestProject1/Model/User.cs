@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace UnitTestProject1.Model
+namespace UnitTestProject.Model
 {
     public class User
     {
