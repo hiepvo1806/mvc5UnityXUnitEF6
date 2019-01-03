@@ -108,6 +108,20 @@ namespace UnitTestProject
             Assert.Contains(dataSource, x => x.FirstName == "ServicEditShouldReturnTrue");       
         }
 
+        [Fact]
+        public void ServicExtensionMethodShouldReturnTrue()
+        {
+            //SETUP
+            var setupResult = Setup(null);
+            var mockSet = setupResult.MockSet;
+            var dataSource = setupResult.DataSource;
+            //ACT
+            var result = _serviceUnderTest.GetFirstObjBySelfExtensionMethod(123);
+
+            //ASSERT
+            Assert.Contains(dataSource, x => x.FirstName == "Just Mocked First Name");
+        }
+
         private MockSetupResult<Author,int> Setup(List<Author> inputDataSource)
         {
             //1.Setup data

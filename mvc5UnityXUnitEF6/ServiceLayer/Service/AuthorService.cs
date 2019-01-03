@@ -2,7 +2,7 @@
 using DataAccessLayer.Models;
 using DataAccessLayer.Repo;
 using ServiceLayer.Models;
-
+//using ServiceLayer.ExtensionMethod;
 namespace ServiceLayer.Service
 {
     public class AuthorService : BaseService<AuthorVM,Author>, IAuthorService
@@ -19,10 +19,16 @@ namespace ServiceLayer.Service
             ctx.Authors.Add(entity);
             return vm;
         }
+
+        public AuthorVM GetFirstObjBySelfExtensionMethod(int id)
+        {
+            return _mapper.Map<AuthorVM>(GetCurrentDbContext().Set<Author>().GetFirstCreateItem());
+        }
     }
 
     public interface IAuthorService : IBaseService<AuthorVM>
     {
         AuthorVM ComplexAddedAuthorByExposeDbContext(AuthorVM vm);
+        AuthorVM GetFirstObjBySelfExtensionMethod(int id);
     }
 }

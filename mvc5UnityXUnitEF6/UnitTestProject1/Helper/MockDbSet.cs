@@ -3,6 +3,7 @@ using System.Data.Entity;
 using System.Linq;
 using DataAccessLayer.Models;
 using Moq;
+using ServiceLayer;
 
 namespace UnitTestProject.Helper
 {
@@ -17,6 +18,9 @@ namespace UnitTestProject.Helper
             As<IQueryable<TEntity>>().Setup(e => e.Expression).Returns(queryable.Expression);
             As<IQueryable<TEntity>>().Setup(e => e.ElementType).Returns(queryable.ElementType);
             As<IQueryable<TEntity>>().Setup(e => e.GetEnumerator()).Returns(() => queryable.GetEnumerator());
+
+            As<IQueryable<TEntity>>().Setup(e => e.GetFirstCreateItem()).Returns(()=>queryable.FirstOrDefault());
+
             //Mocking the insertion of entities
             Setup(_ => _.Add(It.IsAny<TEntity>())).Returns((TEntity arg) =>
             {
