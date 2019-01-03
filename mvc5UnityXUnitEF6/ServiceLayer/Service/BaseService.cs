@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using AutoMapper;
 using DataAccessLayer.Repo;
@@ -47,6 +48,13 @@ namespace ServiceLayer.Service
         {
             var result =  _repo.GetList(null).ToList().Select(s=> _mapper.Map<T>(s));
             return result;
+        }
+
+        public DbContext GetCurrentDbContext()
+        {
+            if (_repo != null)
+                return _repo.GetCurrentDbContext();
+            throw new NullReferenceException();
         }
     }
 }

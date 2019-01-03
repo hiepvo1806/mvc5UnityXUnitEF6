@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq.Expressions;
 
 namespace ServiceLayer.Service
@@ -11,5 +12,6 @@ namespace ServiceLayer.Service
         T Edit(T entity);
         void Delete(int? id);
         IEnumerable<T> GetList();
+        DbContext GetCurrentDbContext();
     }
 }

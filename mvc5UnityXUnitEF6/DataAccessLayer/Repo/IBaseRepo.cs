@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
 
@@ -10,7 +11,7 @@ namespace DataAccessLayer.Repo
         void Create(T entity);
         T Edit(T entity);
         void Delete(int? id);
-        //int SaveChanges();
         IQueryable<T> GetList(Expression<Func<T, bool>> predicate);
+        DbContext GetCurrentDbContext();
     }
 }

@@ -11,10 +11,18 @@ namespace ServiceLayer.Service
         {
             
         }
+
+        public AuthorVM ComplexAddedAuthorByExposeDbContext(AuthorVM vm)
+        {
+            var ctx = GetCurrentDbContext() as BookstoreContext;
+            var entity = _mapper.Map<Author>(vm);
+            ctx.Authors.Add(entity);
+            return vm;
+        }
     }
 
     public interface IAuthorService : IBaseService<AuthorVM>
     {
-
+        AuthorVM ComplexAddedAuthorByExposeDbContext(AuthorVM vm);
     }
 }

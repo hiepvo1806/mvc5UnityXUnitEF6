@@ -6,7 +6,7 @@ using System.Linq.Expressions;
 namespace DataAccessLayer.Repo
 {
     public class BaseRepo<T> : IBaseRepo<T> where T : class
-    {
+    {        
         protected DbContext _db { get; set; }
         public BaseRepo(DbContext db)
         {
@@ -48,10 +48,6 @@ namespace DataAccessLayer.Repo
 
         public virtual T Edit(T entity) {
             throw new NotImplementedException();
-            //{
-            //    db.Entry(entity).State = EntityState.Modified;
-            //    return entity;
-            //}
         }
 
 
@@ -61,9 +57,10 @@ namespace DataAccessLayer.Repo
             return _db.Set<T>().Where(predicate);
         }
 
-        //public int SaveChanges()
-        //{
-        //    return _db.SaveChanges();
-        //}
+        //Changed protect to public for XUnit experiment.
+        public DbContext GetCurrentDbContext()
+        {
+            return _db;
+        }
     }
 }

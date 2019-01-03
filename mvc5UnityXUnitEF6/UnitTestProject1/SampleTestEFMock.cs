@@ -36,7 +36,7 @@ namespace UnitTestProject1
         }
 
         [Fact]
-        public void SampleEfTest()
+        public void AddEFEntityThroughRepository()
         {
             var setupResult =  Setup(null);
             var mockSet = setupResult.MockSet;
@@ -57,9 +57,32 @@ namespace UnitTestProject1
             Assert.Contains(dataSource, x =>x.FirstName == "Hiep"); //<-- shows mock actually added item
         }
 
+        [Fact]
+        public void ComplexAddedAuthorByExposeDbContextTest()
+        {
+            //SETUP
+            var setupResult = Setup(null);
+            var mockSet = setupResult.MockSet;
+            var dataSource = setupResult.DataSource;
+            //ACT
+            _serviceUnderTest.ComplexAddedAuthorByExposeDbContext(new AuthorVM()
+            {
+                FirstName = "Jeff",
+                Books = null,
+                Id = 12,
+                LastName = "Vo",
+                Age = 28
+            });
+            _uowService.Commit();
+
+            // ASSERT
+            mockSet.Verify(u => u.Add(It.IsAny<Author>()), Times.Once());
+            Assert.Contains(dataSource, x => x.FirstName == "Jeff"); //<-- shows mock actually added item
+        }
 
         private MockSetupResult<Author> Setup(List<Author> inputDataSource)
         {
+            //1.Setup data
             var author = new Author()
             {
                 Age = 123,
@@ -72,11 +95,15 @@ namespace UnitTestProject1
             {
                 author
             };
+
             if (inputDataSource != null)
                 dataSource = dataSource.Concat(inputDataSource).ToList(); //<-- this will hold data
+            //2.Setup Db, reference to MockDbSet in helper for more detail.
             var mockSet = new MockDbSet<Author>(dataSource);
             var mockContext = new Mock<BookstoreContext>();
             mockContext.Setup(c => c.Set<Author>()).Returns(mockSet.Object);
+
+            //3.Setup repo,service,uow
             AuthorRepo = new AuthorRepo(mockContext.Object);
             AuthorRepo = new AuthorRepo(mockContext.Object);
             Uow = new UnitOfWork(mockContext.Object);
