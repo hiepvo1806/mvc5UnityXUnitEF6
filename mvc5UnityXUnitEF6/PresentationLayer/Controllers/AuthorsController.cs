@@ -3,6 +3,7 @@ using ServiceLayer.Models;
 using ServiceLayer.Service;
 using System.Net;
 using System.Web.Mvc;
+using NLog;
 
 namespace PresentationLayer.Controllers
 {
@@ -11,6 +12,8 @@ namespace PresentationLayer.Controllers
         private IAuthorService _sv { get; set; }
         private IUnitOfWorkService _uow { get; set; }
         private IMapper _mapper { get; set; }
+
+        private static Logger logger = LogManager.GetCurrentClassLogger();
         // GET: Authors
         public AuthorsController(IAuthorService sv, IUnitOfWorkService uow,IMapper mapper)
         {
@@ -19,8 +22,10 @@ namespace PresentationLayer.Controllers
             _uow = uow;
 
         }
+
         public ActionResult Index()
         {
+            logger.Debug("Log sthing for test");
             return View(_sv.GetList());
         }
 
@@ -49,7 +54,7 @@ namespace PresentationLayer.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        [ValidateAntiForgeryToken]   
         public ActionResult Create([Bind(Include = "Id,FirstName,LastName,Age")] AuthorVM author)
         {
             if (ModelState.IsValid)
@@ -63,6 +68,11 @@ namespace PresentationLayer.Controllers
         }
 
         // GET: Authors/Edit/5
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public ActionResult Edit(int? id)
         {
             if (id == null)
